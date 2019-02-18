@@ -9,7 +9,8 @@ class Book extends Component {
     coverURL: PropTypes.string.isRequired,
     coverWidth: PropTypes.string.isRequired,
     coverHeight: PropTypes.string.isRequired,
-    shelf: PropTypes.string.isRequired
+    shelf: PropTypes.string.isRequired,
+    onUpdateBook: PropTypes.func.isRequired
   }
 
   state = {
