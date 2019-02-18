@@ -4,33 +4,38 @@ import BookShelfChanger from './BookShelfChanger';
 
 class Book extends Component {
   static propTypes = {
-    book: PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      author: PropTypes.string.isRequired,
-      coverURL: PropTypes.string
-    })
+    title: PropTypes.string.isRequired,
+    author: PropTypes.string.isRequired,
+    coverURL: PropTypes.string.isRequired,
+    coverWidth: PropTypes.string.isRequired,
+    coverHeight: PropTypes.string.isRequired,
+    shelf: PropTypes.string.isRequired
+  }
+
+  state = {
+    shelf: this.props.shelf
   }
 
   render() {
-    const { book } = this.props;
-    
+    const { title, author, coverWidth, coverHeight, coverURL, shelf} = this.props;
+
     return (
       <div className="book">
         <div className="book-top">
-          <div 
-            className="book-cover" 
+          <div
+            className="book-cover"
             style={
-              { 
-                width: 128, 
-                height: 193, 
-                backgroundImage: `url(${book.coverURL})` 
+              {
+                width: coverWidth,
+                height: coverHeight,
+                backgroundImage: `url(${coverURL})`
               }
             }
           />
-          <BookShelfChanger/>
+          <BookShelfChanger />
         </div>
-        <div className="book-title">{ book.title }</div>
-        <div className="book-authors">{ book.author }</div>
+        <div className="book-title">{title}</div>
+        <div className="book-authors">{author}</div>
       </div>
     );
   }

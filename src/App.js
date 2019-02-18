@@ -1,8 +1,7 @@
 import React from 'react'
-// import * as BooksAPI from './BooksAPI'
+import * as BooksAPI from './BooksAPI'
 import './App.css'
-import BookShelf from './BookShelf';
-import PageHeader from './PageHeader';
+import BooksList from './BooksList'
 
 class BooksApp extends React.Component {
   state = {
@@ -12,16 +11,18 @@ class BooksApp extends React.Component {
      * users can use the browser's back and forward buttons to navigate between
      * pages, as well as provide a good URL they can bookmark and share.
      */
-    showSearchPage: false
+    showSearchPage: false,
+    booksList: []
+  }
+
+  componentDidMount() {
+    BooksAPI.getAll().then((booksList) => {
+      this.setState({ booksList });
+      console.log(booksList);
+    });
   }
 
   render() {
-    const mockBook = {
-      title: 'To kill a Mockingbird',
-      author: 'Harper Lee',
-      coverURL: "http://books.google.com/books/content?id=PGR2AwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73-GnPVEyb7MOCxDzOYF1PTQRuf6nCss9LMNOSWBpxBrz8Pm2_mFtWMMg_Y1dx92HT7cUoQBeSWjs3oEztBVhUeDFQX6-tWlWz1-feexS0mlJPjotcwFqAg6hBYDXuK_bkyHD-y&source=gbs_api"
-    };
-
     return (
       <div className="app">
         {this.state.showSearchPage ? (
@@ -46,17 +47,7 @@ class BooksApp extends React.Component {
             </div>
           </div>
         ) : (
-            <div className="list-books">
-              <PageHeader title="My Reads" />
-              <div className="list-books-content">
-                <BookShelf bookShelfTitle="Currently Reading" books={[mockBook]} />
-                <BookShelf bookShelfTitle="Want to Read" books={[mockBook]} />
-                <BookShelf bookShelfTitle="Read" books={[mockBook]} />
-              </div>
-              <div className="open-search">
-                <button onClick={() => this.setState({ showSearchPage: true })}>Add a book</button>
-              </div>
-            </div>
+            <BooksList booksList={ this.state.booksList } />
           )}
       </div>
     )

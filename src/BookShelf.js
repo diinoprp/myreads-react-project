@@ -9,14 +9,27 @@ class BookShelf extends Component {
   }
 
 render() {
-  const { books } = this.props;
+  const { books, bookShelfTitle } = this.props;
+  const match = new RegExp('^' + bookShelfTitle.replace(/ +/g, "") + '$', 'i');
+  const showingBooks = books.filter(book => match.test(book.shelf));
+
   return (
     <div className="bookshelf">
       <h2 className="bookshelf-title">{this.props.bookShelfTitle}</h2>
       <div className="bookshelf-books">
         <ol className="books-grid">
-          {books.map((book, index) =>
-            <li key={index}><Book book={book} /></li>
+          {showingBooks.map((book, index) =>
+            <li key={index}>
+              <Book 
+                book={book} 
+                title={book.title} 
+                author={book.authors[0]} 
+                coverWidth="128px" 
+                coverHeight="193px" 
+                coverURL={book.imageLinks.smallThumbnail}
+                shelf={book.shelf}
+                />
+              </li>
           )}
         </ol>
       </div>
