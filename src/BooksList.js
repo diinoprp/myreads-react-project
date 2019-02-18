@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import BookShelf from './BookShelf';
 import PageHeader from './PageHeader';
 
@@ -20,9 +21,13 @@ class BooksList extends Component {
           <BookShelf bookShelfTitle="Want to Read" books={ booksList } onUpdateBook={onUpdateBook} />
           <BookShelf bookShelfTitle="Read" books={ booksList } onUpdateBook={onUpdateBook} />
         </div>
-        <div className="open-search">
-          <button onClick={() => this.setState({ showSearchPage: true })}>Add a book</button>
-        </div>
+        
+        <Link to="/search" className="open-search">
+          <button>
+            Add a book
+          </button>
+        </Link>
+
       </div>
     );
   }
