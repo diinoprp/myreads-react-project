@@ -5,11 +5,12 @@ import Book from './Book';
 class BookShelf extends Component {
   static propTypes = {
     bookShelfTitle: PropTypes.string.isRequired,
-    books: PropTypes.array.isRequired
+    books: PropTypes.array.isRequired,
+    onUpdateBook: PropTypes.func.isRequired
   }
 
 render() {
-  const { books, bookShelfTitle } = this.props;
+  const { books, bookShelfTitle, onUpdateBook } = this.props;
   const match = new RegExp('^' + bookShelfTitle.replace(/ +/g, "") + '$', 'i');
   const showingBooks = books.filter(book => match.test(book.shelf));
 
@@ -21,13 +22,14 @@ render() {
           {showingBooks.map((book, index) =>
             <li key={index}>
               <Book 
-                book={book} 
-                title={book.title} 
-                author={book.authors[0]} 
-                coverWidth="128px" 
-                coverHeight="193px" 
-                coverURL={book.imageLinks.smallThumbnail}
-                shelf={book.shelf}
+                book = {book} 
+                title = {book.title} 
+                author = {book.authors[0]} 
+                coverWidth = "128px" 
+                coverHeight = "193px" 
+                coverURL = {book.imageLinks.smallThumbnail}
+                shelf = {book.shelf}
+                onUpdateBook = {onUpdateBook}
                 />
               </li>
           )}

@@ -16,8 +16,15 @@ class Book extends Component {
     shelf: this.props.shelf
   }
 
+  handleChange = (e) => {
+    console.log(e.target.value);
+    this.setState({shelf: e.target.value});
+    this.props.onUpdateBook(this.props.book, e.target.value)
+  }
+
   render() {
-    const { title, author, coverWidth, coverHeight, coverURL, shelf} = this.props;
+    const { title, author, coverWidth, coverHeight, coverURL } = this.props;
+    const { shelf } = this.state;
 
     return (
       <div className="book">
@@ -32,7 +39,7 @@ class Book extends Component {
               }
             }
           />
-          <BookShelfChanger />
+          <BookShelfChanger shelf={shelf} onChange={this.handleChange} />
         </div>
         <div className="book-title">{title}</div>
         <div className="book-authors">{author}</div>
