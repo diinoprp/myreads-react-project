@@ -23,8 +23,12 @@ updateQuery = (query) => {
   if (query.length <= 0) return;
 
   BooksAPI.search(query, 20).then((searchResult) => {
-    this.setBookShelves(searchResult);
-    this.setState({ showingBooks: searchResult })
+    if (searchResult.length > 0){
+      this.setBookShelves(searchResult);
+      this.setState({ showingBooks: searchResult })
+    } else {
+      this.setState({ showingBooks: [] })
+     }
   })
 }
 
@@ -54,10 +58,10 @@ render() {
               <Book
                 book={book}
                 title={book.title}
-                authors={book.authors}
+                authors={(book.authors) ? book.authors : []}
                 coverWidth="128px"
                 coverHeight="193px"
-                coverURL={book.imageLinks.smallThumbnail}
+                coverURL={(book.imageLinks && book.imageLinks.smallThumbnail) ? book.imageLinks.smallThumbnail : ''}
                 shelf={book.shelf}
                 onUpdateBook={onUpdateBook}
               />
