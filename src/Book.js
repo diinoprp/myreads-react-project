@@ -25,8 +25,6 @@ class Book extends Component {
   render() {
     const { title, authors, coverWidth, coverHeight, coverURL } = this.props;
     const { shelf } = this.state;
-
-    let background = './icons/favorite.svg';
     return (
       <div className="book">
         <div className="book-top">
