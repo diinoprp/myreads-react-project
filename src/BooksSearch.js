@@ -18,7 +18,7 @@ setBookShelves = (searchedBooks) => {
 }
 
 updateQuery = (query) => {
-  this.setState ({ query: query.trim() })
+  this.setState ({ query })
 
   if (query.length <= 0) return;
 
