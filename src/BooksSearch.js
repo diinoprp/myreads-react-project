@@ -8,71 +8,67 @@ class BooksSearch extends Component {
 
   state = {
     query: '',
-    searchResults: []
+    showingBooks: []
   }
 
-  searchBooks(query) {
-    BooksAPI.search(this.state.query, 20).then((searchResults) => {
-      searchResults = searchResults || [];
-      this.setState({ searchResults })
-    })
-  }
+setBookShelves = (searchedBooks) => {
+  searchedBooks.map((book) => {
+    let bookFromLibrary = this.props.booksList.find((savedBook) => savedBook.id === book.id);
+    return bookFromLibrary ? book.shelf = bookFromLibrary.shelf : book.shelf = 'none';
+  })
+}
 
-  updateQuery = (query) => {
-    this.setState({ query })
-  }
+updateQuery = (query) => {
+  this.setState ({ query: query.trim() })
 
-  render() {
-    const { onUpdateBook } = this.props;
-    const { query, searchResults } = this.state;
+  if (query.length <= 0) return;
 
-    this.searchBooks(query);
+  BooksAPI.search(query, 20).then((searchResult) => {
+    this.setBookShelves(searchResult);
+    this.setState({ showingBooks: searchResult })
+  })
+}
 
-    let showingBooks;
-    if (query) {
-      const match = new RegExp(escapeRegExp(query), 'i');
-      showingBooks = searchResults.filter((book) => match.test(book.title));
-      console.log(showingBooks);
-    } else {
-      showingBooks = [];
-    }
+render() {
+  const { onUpdateBook } = this.props;
+  const { query, showingBooks } = this.state;
 
-    return (
-      <div className="search-books">
-        <div className="search-books-bar">
-          <Link to="/">
-            <button className="close-search">Close</button>
-          </Link>
-          <div className="search-books-input-wrapper">
-            <input
-              type="text"
-              placeholder="Search by title or author"
-              value={this.state.query}
-              onChange={(event) => this.updateQuery(event.target.value)}
-            />
-          </div>
-        </div>
-        <div className="search-books-results">
-          <ol className="books-grid">
-            {showingBooks.map((book) =>
-              <li key={book.id}>
-                <Book
-                  book={book}
-                  title={book.title}
-                  authors={book.authors}
-                  coverWidth="128px"
-                  coverHeight="193px"
-                  coverURL={book.imageLinks.smallThumbnail}
-                  shelf={book.shelf}
-                  onUpdateBook={onUpdateBook}
-                />
-              </li>
-            )}
-          </ol>
+  return (
+    <div className="search-books">
+      <div className="search-books-bar">
+        <Link to="/">
+          <button className="close-search">Close</button>
+        </Link>
+        <div className="search-books-input-wrapper">
+          <input
+            type="text"
+            placeholder="Search by title or author"
+            value={query}
+            onChange={(event) => this.updateQuery(event.target.value)}
+          />
         </div>
       </div>
-    );
-  }
+      <div className="search-books-results">
+        <ol className="books-grid">
+          {showingBooks.map((book) =>
+            <li key={book.id}>
+              <Book
+                book={book}
+                title={book.title}
+                authors={book.authors}
+                coverWidth="128px"
+                coverHeight="193px"
+                coverURL={book.imageLinks.smallThumbnail}
+                shelf={book.shelf}
+                onUpdateBook={onUpdateBook}
+              />
+            </li>
+          )}
+        </ol>
+      </div>
+    </div>
+  );
+}
 }
 
 export default BooksSearch

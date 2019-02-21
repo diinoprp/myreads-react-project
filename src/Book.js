@@ -18,7 +18,7 @@ class Book extends Component {
   }
 
   handleChange = (e) => {
-    this.setState({shelf: e.target.value});
+    this.setState({ shelf: e.target.value });
     this.props.onUpdateBook(this.props.book, e.target.value)
   }
 
@@ -26,6 +26,7 @@ class Book extends Component {
     const { title, authors, coverWidth, coverHeight, coverURL } = this.props;
     const { shelf } = this.state;
 
+    let background = './icons/favorite.svg';
     return (
       <div className="book">
         <div className="book-top">
