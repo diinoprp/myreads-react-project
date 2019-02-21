@@ -7,6 +7,6 @@ App feita utilizando React para o Nanodegree de Desenvolvimento Front End avanç
 
 ```
 npm install
-cd reactnd-project-myreads-starter
+cd myreads-react-project
 npm start
 ```
